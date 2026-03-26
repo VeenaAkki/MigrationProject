@@ -1,0 +1,147 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "AdfDevMigration"
+		},
+		"ADLS_SQL_PARQUET_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'ADLS_SQL_PARQUET'"
+		},
+		"LS_ONPREM_SQLSERVER_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'LS_ONPREM_SQLSERVER'"
+		},
+		"LS_SQLSERVER_PARQUET_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'LS_SQLSERVER_PARQUET'"
+		},
+		"LS_SQLSERVER_WATERMARK_TBL_LIST_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'LS_SQLSERVER_WATERMARK_TBL_LIST'"
+		},
+		"ADLS_SQL_PARQUET_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://adlsdevmigration.dfs.core.windows.net/"
+		},
+		"LS_ONPREM_SQLSERVER_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "localhost\\SQLEXPRESS"
+		},
+		"LS_ONPREM_SQLSERVER_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "MigrationProject "
+		},
+		"LS_ONPREM_SQLSERVER_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "PracticeDB"
+		},
+		"LS_SQLSERVER_PARQUET_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "localhost\\SQLEXPRESS"
+		},
+		"LS_SQLSERVER_PARQUET_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "MigrationProject"
+		},
+		"LS_SQLSERVER_PARQUET_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "PracticeDB"
+		},
+		"LS_SQLSERVER_WATERMARK_TBL_LIST_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "localhost\\SQLEXPRESS"
+		},
+		"LS_SQLSERVER_WATERMARK_TBL_LIST_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "MigrationProject"
+		},
+		"LS_SQLSERVER_WATERMARK_TBL_LIST_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "PracticeDB"
+		},
+		"SharedSelfhostedIR-Migration_properties_typeProperties_linkedInfo_resourceId": {
+			"type": "string",
+			"defaultValue": "/subscriptions/11442715-cc46-49ec-b253-d92f9c67119e/resourcegroups/rg_dev_travel/providers/Microsoft.DataFactory/factories/adfdevtravel/integrationruntimes/selfHostedIntegrationRunTime"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "AdfDevMigration_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"ADLS_SQL_PARQUET_accountKey": {
+						"value": "[parameters('ADLS_SQL_PARQUET_accountKey')]"
+					},
+					"LS_ONPREM_SQLSERVER_password": {
+						"value": "[parameters('LS_ONPREM_SQLSERVER_password')]"
+					},
+					"LS_SQLSERVER_PARQUET_password": {
+						"value": "[parameters('LS_SQLSERVER_PARQUET_password')]"
+					},
+					"LS_SQLSERVER_WATERMARK_TBL_LIST_password": {
+						"value": "[parameters('LS_SQLSERVER_WATERMARK_TBL_LIST_password')]"
+					},
+					"ADLS_SQL_PARQUET_properties_typeProperties_url": {
+						"value": "[parameters('ADLS_SQL_PARQUET_properties_typeProperties_url')]"
+					},
+					"SharedSelfhostedIR-Migration_properties_typeProperties_linkedInfo_resourceId": {
+						"value": "[parameters('SharedSelfhostedIR-Migration_properties_typeProperties_linkedInfo_resourceId')]"
+					},
+					"LS_ONPREM_SQLSERVER_properties_typeProperties_server": {
+						"value": "[parameters('LS_ONPREM_SQLSERVER_properties_typeProperties_server')]"
+					},
+					"LS_ONPREM_SQLSERVER_properties_typeProperties_database": {
+						"value": "[parameters('LS_ONPREM_SQLSERVER_properties_typeProperties_database')]"
+					},
+					"LS_ONPREM_SQLSERVER_properties_typeProperties_userName": {
+						"value": "[parameters('LS_ONPREM_SQLSERVER_properties_typeProperties_userName')]"
+					},
+					"LS_SQLSERVER_PARQUET_properties_typeProperties_server": {
+						"value": "[parameters('LS_SQLSERVER_PARQUET_properties_typeProperties_server')]"
+					},
+					"LS_SQLSERVER_PARQUET_properties_typeProperties_database": {
+						"value": "[parameters('LS_SQLSERVER_PARQUET_properties_typeProperties_database')]"
+					},
+					"LS_SQLSERVER_PARQUET_properties_typeProperties_userName": {
+						"value": "[parameters('LS_SQLSERVER_PARQUET_properties_typeProperties_userName')]"
+					},
+					"LS_SQLSERVER_WATERMARK_TBL_LIST_properties_typeProperties_server": {
+						"value": "[parameters('LS_SQLSERVER_WATERMARK_TBL_LIST_properties_typeProperties_server')]"
+					},
+					"LS_SQLSERVER_WATERMARK_TBL_LIST_properties_typeProperties_database": {
+						"value": "[parameters('LS_SQLSERVER_WATERMARK_TBL_LIST_properties_typeProperties_database')]"
+					},
+					"LS_SQLSERVER_WATERMARK_TBL_LIST_properties_typeProperties_userName": {
+						"value": "[parameters('LS_SQLSERVER_WATERMARK_TBL_LIST_properties_typeProperties_userName')]"
+					}
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}

@@ -1,0 +1,60 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "AdfDevMigration"
+		},
+		"ADLS_SQL_PARQUET_accountKey": {
+			"value": ""
+		},
+		"LS_ONPREM_SQLSERVER_password": {
+			"value": ""
+		},
+		"LS_SQLSERVER_PARQUET_password": {
+			"value": ""
+		},
+		"LS_SQLSERVER_WATERMARK_TBL_LIST_password": {
+			"value": ""
+		},
+		"ADLS_SQL_PARQUET_properties_typeProperties_url": {
+			"value": "https://adlsdevmigration.dfs.core.windows.net/"
+		},
+		"LS_ONPREM_SQLSERVER_properties_typeProperties_server": {
+			"value": "localhost\\SQLEXPRESS"
+		},
+		"LS_ONPREM_SQLSERVER_properties_typeProperties_database": {
+			"value": "MigrationProject "
+		},
+		"LS_ONPREM_SQLSERVER_properties_typeProperties_userName": {
+			"value": "PracticeDB"
+		},
+		"LS_SQLSERVER_PARQUET_properties_typeProperties_server": {
+			"value": "localhost\\SQLEXPRESS"
+		},
+		"LS_SQLSERVER_PARQUET_properties_typeProperties_database": {
+			"value": "MigrationProject"
+		},
+		"LS_SQLSERVER_PARQUET_properties_typeProperties_userName": {
+			"value": "PracticeDB"
+		},
+		"LS_SQLSERVER_WATERMARK_TBL_LIST_properties_typeProperties_server": {
+			"value": "localhost\\SQLEXPRESS"
+		},
+		"LS_SQLSERVER_WATERMARK_TBL_LIST_properties_typeProperties_database": {
+			"value": "MigrationProject"
+		},
+		"LS_SQLSERVER_WATERMARK_TBL_LIST_properties_typeProperties_userName": {
+			"value": "PracticeDB"
+		},
+		"SharedSelfhostedIR-Migration_properties_typeProperties_linkedInfo_resourceId": {
+			"value": "/subscriptions/11442715-cc46-49ec-b253-d92f9c67119e/resourcegroups/rg_dev_travel/providers/Microsoft.DataFactory/factories/adfdevtravel/integrationruntimes/selfHostedIntegrationRunTime"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}
