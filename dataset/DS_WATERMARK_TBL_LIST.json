@@ -1,0 +1,17 @@
+{
+	"name": "DS_WATERMARK_TBL_LIST",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_SQLSERVER_WATERMARK_TBL_LIST",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "ADF_Watermark_TablE"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

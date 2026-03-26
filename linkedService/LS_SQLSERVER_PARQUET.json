@@ -1,0 +1,22 @@
+{
+	"name": "LS_SQLSERVER_PARQUET",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"description": "self integrated runtime as we are fetching data from on-premises DB",
+		"annotations": [],
+		"type": "SqlServer",
+		"typeProperties": {
+			"server": "localhost\\SQLEXPRESS",
+			"database": "MigrationProject",
+			"encrypt": "mandatory",
+			"trustServerCertificate": true,
+			"authenticationType": "SQL",
+			"userName": "PracticeDB",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiIyY2NlNzRlMC00ODg4LTRlMzctYWIyNS04YTFmNmVjZTE0OTciLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "SharedSelfhostedIR-Migration",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

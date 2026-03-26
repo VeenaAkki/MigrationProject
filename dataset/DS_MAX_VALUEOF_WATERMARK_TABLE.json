@@ -1,0 +1,13 @@
+{
+	"name": "DS_MAX_VALUEOF_WATERMARK_TABLE",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_SQLSERVER_PARQUET",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

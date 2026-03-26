@@ -1,0 +1,12 @@
+{
+	"name": "SharedSelfhostedIR-Migration",
+	"properties": {
+		"type": "SelfHosted",
+		"typeProperties": {
+			"linkedInfo": {
+				"resourceId": "/subscriptions/11442715-cc46-49ec-b253-d92f9c67119e/resourcegroups/rg_dev_travel/providers/Microsoft.DataFactory/factories/adfdevtravel/integrationruntimes/selfHostedIntegrationRunTime",
+				"authorizationType": "Rbac"
+			}
+		}
+	}
+}

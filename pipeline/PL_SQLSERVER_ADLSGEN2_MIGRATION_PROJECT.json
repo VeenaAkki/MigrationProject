@@ -1,0 +1,234 @@
+{
+	"name": "PL_SQLSERVER_ADLSGEN2_MIGRATION_PROJECT",
+	"properties": {
+		"activities": [
+			{
+				"name": "LKP_FETCH_WATERMARK_TBL_LIST",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"sqlReaderQuery": {
+							"value": "SELECT TableSchema,TableName,WatermarkColumn,LastLoadValue FROM dbo.ADF_Watermark_Table\n",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "DS_WATERMARK_TBL_LIST",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "FOREACH_ITERATE_SQLSERVER_TABLE_DETAILS",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "LKP_FETCH_WATERMARK_TBL_LIST",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('LKP_FETCH_WATERMARK_TBL_LIST').output.value",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "LKU_MAX_VALUE_FROM_WATERMARK_TABLE",
+							"type": "Lookup",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "SqlServerSource",
+									"sqlReaderQuery": {
+										"value": "SELECT MAX(@{pipeline().parameters.WatermarkColumn}) AS MaxValue\nFROM @{pipeline().parameters.TableSchema}.@{pipeline().parameters.TableName}",
+										"type": "Expression"
+									},
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"dataset": {
+									"referenceName": "DS_MAX_VALUEOF_WATERMARK_TABLE",
+									"type": "DatasetReference"
+								},
+								"firstRowOnly": true
+							}
+						},
+						{
+							"name": "IF_NEW_RECORD_EXISTS",
+							"type": "IfCondition",
+							"dependsOn": [
+								{
+									"activity": "LKU_MAX_VALUE_FROM_WATERMARK_TABLE",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"expression": {
+									"value": "@or(equals(pipeline().parameters.LastLoadValue, null), greater(int(activity('LKU_MAX_VALUE_FROM_WATERMARK_TABLE').output.firstRow.MaxValue), int(pipeline().parameters.LastLoadValue)))",
+									"type": "Expression"
+								},
+								"ifTrueActivities": [
+									{
+										"name": "CCPY_FULL_OR_INCRE_LOAD",
+										"type": "Copy",
+										"dependsOn": [],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"source": {
+												"type": "SqlServerSource",
+												"sqlReaderQuery": {
+													"value": "@concat(\n    'SELECT * FROM ',\n    pipeline().parameters.TableSchema, '.', pipeline().parameters.TableName,\n    if(\n        equals(pipeline().parameters.LastLoadValue, null),\n        '', \n        concat(\n            ' WHERE ', pipeline().parameters.WatermarkColumn,\n            ' > ''', pipeline().parameters.LastLoadValue, ''''\n        )\n    )\n)",
+													"type": "Expression"
+												},
+												"queryTimeout": "02:00:00",
+												"partitionOption": "None"
+											},
+											"sink": {
+												"type": "ParquetSink",
+												"storeSettings": {
+													"type": "AzureBlobFSWriteSettings"
+												},
+												"formatSettings": {
+													"type": "ParquetWriteSettings"
+												}
+											},
+											"enableStaging": false,
+											"translator": {
+												"type": "TabularTranslator",
+												"typeConversion": true,
+												"typeConversionSettings": {
+													"allowDataTruncation": true,
+													"treatBooleanAsNumber": false
+												}
+											}
+										},
+										"inputs": [
+											{
+												"referenceName": "DS_MAX_VALUEOF_WATERMARK_TABLE",
+												"type": "DatasetReference"
+											}
+										],
+										"outputs": [
+											{
+												"referenceName": "D_SQLTABLE_PARQUET",
+												"type": "DatasetReference",
+												"parameters": {
+													"Table_Name": {
+														"value": "@pipeline().parameters.TableName",
+														"type": "Expression"
+													}
+												}
+											}
+										]
+									},
+									{
+										"name": "SP_TO_UPDATE_WATERMARK_TABLE",
+										"type": "SqlServerStoredProcedure",
+										"dependsOn": [
+											{
+												"activity": "CCPY_FULL_OR_INCRE_LOAD",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"storedProcedureName": "[dbo].[UpdateWatermark]",
+											"storedProcedureParameters": {
+												"TableName": {
+													"value": {
+														"value": "@pipeline().parameters.TableName",
+														"type": "Expression"
+													},
+													"type": "String"
+												},
+												"TableSchema": {
+													"value": {
+														"value": "@pipeline().parameters.TableSchema",
+														"type": "Expression"
+													},
+													"type": "String"
+												},
+												"WatermarkColumn": {
+													"value": {
+														"value": "@pipeline().parameters.WatermarkColumn",
+														"type": "Expression"
+													},
+													"type": "String"
+												}
+											}
+										},
+										"linkedServiceName": {
+											"referenceName": "LS_ONPREM_SQLSERVER",
+											"type": "LinkedServiceReference"
+										}
+									}
+								]
+							}
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"TableSchema": {
+				"type": "string"
+			},
+			"TableName": {
+				"type": "string"
+			},
+			"WatermarkColumn": {
+				"type": "string"
+			},
+			"LastLoadValue": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2026-03-26T14:30:45Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
