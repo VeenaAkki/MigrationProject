@@ -1,0 +1,53 @@
+{
+	"name": "PL_LOG_SUCCESS",
+	"properties": {
+		"activities": [
+			{
+				"name": "SP_LogPipelineSuccess",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[LogPipelineSuccess]",
+					"storedProcedureParameters": {
+						"EndTime": {
+							"value": "@utcnow()",
+							"type": "DateTime"
+						},
+						"PipelineName": {
+							"value": "@pipeline().Pipeline",
+							"type": "String"
+						},
+						"RowsCopied": {
+							"value": {
+								"value": "@activity('CCPY_FULL_OR_INCRE_LOAD').output.rowsCopied",
+								"type": "Expression"
+							},
+							"type": "Int32"
+						},
+						"StartTime": {
+							"value": "@variables('StartTime')",
+							"type": "DateTime"
+						},
+						"TableName": {
+							"value": "@pipeline().parameters.TableName",
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "LS_SQLSERVER_WATERMARK_TBL_LIST",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"annotations": []
+	}
+}

@@ -5,7 +5,14 @@
 			{
 				"name": "LKU_MAX_VALUE_FROM_WATERMARK_TABLE",
 				"type": "Lookup",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "SET_START_TIME",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -149,8 +156,74 @@
 									}
 								}
 							}
+						},
+						{
+							"name": "EXE_LOG_SUCCESS",
+							"type": "ExecutePipeline",
+							"dependsOn": [
+								{
+									"activity": "EXE_UPD_WATERMARK_TABLE",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "PL_LOG_SUCCESS",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true
+							}
+						},
+						{
+							"name": "EXE_LOG_FAILURE",
+							"type": "ExecutePipeline",
+							"dependsOn": [
+								{
+									"activity": "EXE_UPD_WATERMARK_TABLE",
+									"dependencyConditions": [
+										"Failed"
+									]
+								},
+								{
+									"activity": "CCPY_FULL_OR_INCRE_LOAD",
+									"dependencyConditions": [
+										"Failed"
+									]
+								}
+							],
+							"policy": {
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "PL_LOG_FAILURE",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true
+							}
 						}
 					]
+				}
+			},
+			{
+				"name": "SET_START_TIME",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "StartTime",
+					"value": "@utcnow()"
 				}
 			}
 		],
@@ -166,6 +239,17 @@
 			},
 			"LastLoadValue": {
 				"type": "string"
+			},
+			"StartTime": {
+				"type": "string"
+			},
+			"ErrorMessage": {
+				"type": "string"
+			}
+		},
+		"variables": {
+			"StartTime": {
+				"type": "String"
 			}
 		},
 		"annotations": [],
