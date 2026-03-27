@@ -64,7 +64,7 @@
 				"type": "string"
 			},
 			"MaxWatermarkValue": {
-				"type": "int"
+				"type": "string"
 			}
 		},
 		"annotations": [],
