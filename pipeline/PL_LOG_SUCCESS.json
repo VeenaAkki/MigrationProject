@@ -27,7 +27,7 @@
 						},
 						"RowsCopied": {
 							"value": {
-								"value": "@activity('CCPY_FULL_OR_INCRE_LOAD').output.rowsCopied",
+								"value": "@pipeline().parameters.RowsCopied",
 								"type": "Expression"
 							},
 							"type": "Int32"
@@ -48,6 +48,11 @@
 				}
 			}
 		],
+		"parameters": {
+			"RowsCopied": {
+				"type": "int"
+			}
+		},
 		"annotations": []
 	}
 }

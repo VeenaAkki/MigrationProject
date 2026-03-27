@@ -21,13 +21,6 @@
 							"value": "@utcnow()",
 							"type": "DateTime"
 						},
-						"ErrorMessage": {
-							"value": {
-								"value": "@activity('CCPY_FULL_OR_INCRE_LOAD').error.message",
-								"type": "Expression"
-							},
-							"type": "String"
-						},
 						"PipelineName": {
 							"value": "@pipeline().Pipeline",
 							"type": "String"
@@ -39,6 +32,10 @@
 						"TableName": {
 							"value": "@pipeline().parameters.TableName",
 							"type": "String"
+						},
+						"ErrorMessage": {
+							"value": "@pipeline().parameters.ErrorMessage ",
+							"type": "String"
 						}
 					}
 				},
@@ -48,6 +45,11 @@
 				}
 			}
 		],
+		"parameters": {
+			"ErrorMessage": {
+				"type": "string"
+			}
+		},
 		"annotations": []
 	}
 }

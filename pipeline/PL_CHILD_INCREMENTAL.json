@@ -177,7 +177,13 @@
 									"referenceName": "PL_LOG_SUCCESS",
 									"type": "PipelineReference"
 								},
-								"waitOnCompletion": true
+								"waitOnCompletion": true,
+								"parameters": {
+									"RowsCopied": {
+										"value": "@activity('CCPY_FULL_OR_INCRE_LOAD').output.rowsCopied",
+										"type": "Expression"
+									}
+								}
 							}
 						},
 						{
@@ -206,7 +212,13 @@
 									"referenceName": "PL_LOG_FAILURE",
 									"type": "PipelineReference"
 								},
-								"waitOnCompletion": true
+								"waitOnCompletion": true,
+								"parameters": {
+									"ErrorMessage": {
+										"value": "@activity('CCPY_FULL_OR_INCRE_LOAD').error.message",
+										"type": "Expression"
+									}
+								}
 							}
 						}
 					]
