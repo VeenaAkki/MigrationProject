@@ -183,13 +183,22 @@
 										"value": "@activity('CCPY_FULL_OR_INCRE_LOAD').output.rowsCopied",
 										"type": "Expression"
 									},
-									"PipelineName": "@pipeline().Pipeline",
+									"PipelineName": {
+										"value": "@pipeline().Pipeline",
+										"type": "Expression"
+									},
 									"TableName": {
 										"value": "@pipeline().parameters.TableName",
 										"type": "Expression"
 									},
-									"StartTime": "@variables('StartTime')",
-									"EndTime": "@utcnow()"
+									"StartTime": {
+										"value": "@variables('StartTime')",
+										"type": "Expression"
+									},
+									"EndTime": {
+										"value": "@utcnow()",
+										"type": "Expression"
+									}
 								}
 							}
 						},
@@ -225,10 +234,22 @@
 										"value": "@activity('CCPY_FULL_OR_INCRE_LOAD').error.message",
 										"type": "Expression"
 									},
-									"EndTime": "@utcnow()",
-									"PipelineName": "@pipeline().Pipeline",
-									"TableName": "@pipeline().parameters.TableName",
-									"StartTime": "@variables('StartTime')"
+									"EndTime": {
+										"value": "@utcnow()",
+										"type": "Expression"
+									},
+									"PipelineName": {
+										"value": "@pipeline().Pipeline",
+										"type": "Expression"
+									},
+									"TableName": {
+										"value": "@pipeline().parameters.TableName",
+										"type": "Expression"
+									},
+									"StartTime": {
+										"value": "@variables('StartTime')",
+										"type": "Expression"
+									}
 								}
 							}
 						}
