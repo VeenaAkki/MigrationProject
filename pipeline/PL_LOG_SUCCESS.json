@@ -18,11 +18,17 @@
 					"storedProcedureName": "[dbo].[LogPipelineSuccess]",
 					"storedProcedureParameters": {
 						"EndTime": {
-							"value": "@utcnow()",
+							"value": {
+								"value": "@utcnow()",
+								"type": "Expression"
+							},
 							"type": "DateTime"
 						},
 						"PipelineName": {
-							"value": "@pipeline().Pipeline",
+							"value": {
+								"value": "@pipeline().Pipeline",
+								"type": "Expression"
+							},
 							"type": "String"
 						},
 						"RowsCopied": {
@@ -33,11 +39,17 @@
 							"type": "Int32"
 						},
 						"StartTime": {
-							"value": "@variables('StartTime')",
+							"value": {
+								"value": "@pipeline().parameters.StartTime",
+								"type": "Expression"
+							},
 							"type": "DateTime"
 						},
 						"TableName": {
-							"value": "@pipeline().parameters.TableName",
+							"value": {
+								"value": "@pipeline().parameters.TableName",
+								"type": "Expression"
+							},
 							"type": "String"
 						}
 					}
@@ -51,6 +63,18 @@
 		"parameters": {
 			"RowsCopied": {
 				"type": "int"
+			},
+			"PipelineName": {
+				"type": "string"
+			},
+			"TableName": {
+				"type": "string"
+			},
+			"StartTime": {
+				"type": "string"
+			},
+			"EndTime": {
+				"type": "string"
 			}
 		},
 		"annotations": []

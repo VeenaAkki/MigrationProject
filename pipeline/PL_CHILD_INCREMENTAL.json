@@ -182,7 +182,14 @@
 									"RowsCopied": {
 										"value": "@activity('CCPY_FULL_OR_INCRE_LOAD').output.rowsCopied",
 										"type": "Expression"
-									}
+									},
+									"PipelineName": "@pipeline().Pipeline",
+									"TableName": {
+										"value": "@pipeline().parameters.TableName",
+										"type": "Expression"
+									},
+									"StartTime": "@variables('StartTime')",
+									"EndTime": "@utcnow()"
 								}
 							}
 						},
@@ -217,7 +224,11 @@
 									"ErrorMessage": {
 										"value": "@activity('CCPY_FULL_OR_INCRE_LOAD').error.message",
 										"type": "Expression"
-									}
+									},
+									"EndTime": "@utcnow()",
+									"PipelineName": "@pipeline().Pipeline",
+									"TableName": "@pipeline().parameters.TableName",
+									"StartTime": "@variables('StartTime')"
 								}
 							}
 						}
@@ -235,7 +246,10 @@
 				"userProperties": [],
 				"typeProperties": {
 					"variableName": "StartTime",
-					"value": "@utcnow()"
+					"value": {
+						"value": "@utcnow()",
+						"type": "Expression"
+					}
 				}
 			}
 		],

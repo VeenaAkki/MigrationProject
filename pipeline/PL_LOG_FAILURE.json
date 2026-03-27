@@ -18,23 +18,38 @@
 					"storedProcedureName": "[dbo].[LogPipelineFailure]",
 					"storedProcedureParameters": {
 						"EndTime": {
-							"value": "@utcnow()",
+							"value": {
+								"value": "@utcnow()",
+								"type": "Expression"
+							},
 							"type": "DateTime"
 						},
 						"PipelineName": {
-							"value": "@pipeline().Pipeline",
+							"value": {
+								"value": "@pipeline().Pipeline",
+								"type": "Expression"
+							},
 							"type": "String"
 						},
 						"StartTime": {
-							"value": "@variables('StartTime')",
+							"value": {
+								"value": "@pipeline().parameters.StartTime",
+								"type": "Expression"
+							},
 							"type": "DateTime"
 						},
 						"TableName": {
-							"value": "@pipeline().parameters.TableName",
+							"value": {
+								"value": "@pipeline().parameters.TableName",
+								"type": "Expression"
+							},
 							"type": "String"
 						},
 						"ErrorMessage": {
-							"value": "@pipeline().parameters.ErrorMessage ",
+							"value": {
+								"value": "@pipeline().parameters.ErrorMessage",
+								"type": "Expression"
+							},
 							"type": "String"
 						}
 					}
@@ -47,6 +62,18 @@
 		],
 		"parameters": {
 			"ErrorMessage": {
+				"type": "string"
+			},
+			"EndTime": {
+				"type": "string"
+			},
+			"PipelineName": {
+				"type": "string"
+			},
+			"TableName": {
+				"type": "string"
+			},
+			"StartTime": {
 				"type": "string"
 			}
 		},
