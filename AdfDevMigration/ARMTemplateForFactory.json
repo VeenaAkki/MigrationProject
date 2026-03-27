@@ -122,7 +122,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"expression": {
-								"value": "@or(equals(pipeline().parameters.LastLoadValue, null), greater(int(activity('LKU_MAX_VALUE_FROM_WATERMARK_TABLE').output.firstRow.MaxValue), int(pipeline().parameters.LastLoadValue)))",
+								"value": "@and(\n  not(equals(activity('LKU_MAX_VALUE_FROM_WATERMARK_TABLE').output.firstRow.MaxValue, null)),\n  or(\n    equals(pipeline().parameters.LastLoadValue, null),\n    greater(\n      int(activity('LKU_MAX_VALUE_FROM_WATERMARK_TABLE').output.firstRow.MaxValue),\n      int(pipeline().parameters.LastLoadValue)\n    )\n  )\n)",
 								"type": "Expression"
 							},
 							"ifTrueActivities": [
