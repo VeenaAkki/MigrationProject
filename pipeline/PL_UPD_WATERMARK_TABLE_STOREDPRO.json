@@ -17,6 +17,13 @@
 				"typeProperties": {
 					"storedProcedureName": "[dbo].[UpdateWatermark]",
 					"storedProcedureParameters": {
+						"MaxWatermarkValue": {
+							"value": {
+								"value": "@pipeline().parameters.MaxWatermarkValue",
+								"type": "Expression"
+							},
+							"type": "Int64"
+						},
 						"TableName": {
 							"value": {
 								"value": "@pipeline().parameters.TableName",
@@ -55,6 +62,9 @@
 			},
 			"WatermarkColumn": {
 				"type": "string"
+			},
+			"MaxWatermarkValue": {
+				"type": "int"
 			}
 		},
 		"annotations": [],

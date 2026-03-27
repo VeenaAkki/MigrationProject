@@ -142,7 +142,8 @@
 									"WatermarkColumn": {
 										"value": "@pipeline().parameters.WatermarkColumn",
 										"type": "Expression"
-									}
+									},
+									"MaxWatermarkValue": "@activity('LKU_MAX_VALUE_FROM_WATERMARK_TABLE').output.firstRow.MaxValue"
 								}
 							}
 						}
