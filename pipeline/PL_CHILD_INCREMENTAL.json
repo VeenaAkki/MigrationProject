@@ -286,12 +286,6 @@
 			},
 			"LastLoadValue": {
 				"type": "string"
-			},
-			"StartTime": {
-				"type": "string"
-			},
-			"ErrorMessage": {
-				"type": "string"
 			}
 		},
 		"variables": {
